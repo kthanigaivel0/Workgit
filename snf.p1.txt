@@ -1,0 +1,52 @@
+--show databases;
+
+--drop database snow;
+
+--undrop database playdb;
+
+--load files using snowsql from your local machine first
+--put file://C:\Users\Thani\Downloads\archive\*.csv @~;
+
+list @~;
+
+desc @~/level0.csv.gz;
+
+use warehouse playwh;
+select t.$1,t.$2,t.$3,t.$4,t.$5,t.$6,t.$7 from @~/level0.csv.gz t;
+--file_format = (type = csv, skip_header = 1));
+
+
+select t.$1,t.$2,t.$5 from @~/employees01.csv.gz t;
+
+create or replace table emp4 (
+         first_name string ,
+         last_name string ,
+         email string ,
+         streetaddress string ,
+         city string ,
+         start_date date
+         );
+select * from emp4;
+
+list @%emp4;
+
+copy into emp4
+  from @%emp4/employees02.csv.gz
+  file_format = (type = csv);
+  
+create or replace table emp5 (
+         first_name string ,
+         last_name string ,
+         email string ,
+         streetaddress string ,
+         city string ,
+         start_date date
+);
+
+copy into emp5
+  from @%emp4/employees01.csv.gz
+  file_format = (type = csv);
+
+select * from emp4
+
+
